@@ -127,11 +127,11 @@ longAndShortSongs (dict: lelaWhatMovementIsThis)
 
 //დაწერეთ ფუნქცია რომელიც გამოითვლის სიმღერების საშუალო ხანგრძლივობას
 func averageDurationOfSongs (dict: [String: Int]){
-    var sumOfTime2 = 0
+    var sumOfTime2 = 0.0
     for (_,value) in dict {
-        sumOfTime2 += value
+        sumOfTime2 += Double(value)
     }
-    print ( sumOfTime2  / dict.count )
+    print ( Double(sumOfTime2)  / Double(dict.count) )
 }
 averageDurationOfSongs(dict: lelaWhatMovementIsThis)
 

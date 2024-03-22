@@ -74,18 +74,20 @@ kanyeAlbums (inputArray: kanye, inputDate: 2007)
     
 //შექმენით String-ის ტიპის lazy property wrapper სახელად, cachedData. ინიციალიზება გაუკეთეთ ქლოჟერით რომელიც აბრუნებს სტრინგს მნიშვნელობით “lazy ინიციალიზებულია”. მიწვდით ამ ფროფერთის და დაბეჭდეთ მისი მნიშვნელობა
 @propertyWrapper
-struct lazyData {
+struct lazyPropertyWrapper {
     var wrappedValue: String
-    private var cachedData: String {
-        get { return self.cachedData }
-    }
+    lazy var cachedData: String = {
+        return "lazy ინიციალიზებულია"
+    }()
 }
 
+var myPropertyWrapper = lazyPropertyWrapper(wrappedValue: "")
 
 let stringClosure: (String) -> String = { _ in
-    lazy var cachedData = lazyData.init(wrappedValue: "lazy ინიციალიზებულია")
-    return "lazy ინიციალიზებულია"
+    var value = myPropertyWrapper
+    return value.cachedData
 }
+
 print (stringClosure(""))
 
 //Optional

@@ -11,8 +11,8 @@ class Book {
     var author: String
     var isBorrowed: Bool
     
-    init(bookID: Int, title: String, author: String, isBorrowed: Bool) {
-        self.bookID = bookID
+    init(bookID: Int = 1, title: String, author: String, isBorrowed: Bool) {
+        self.bookID = bookID+1
         self.title = title
         self.author = author
         self.isBorrowed = isBorrowed
@@ -43,22 +43,26 @@ class Owner {
     var name: String
     var borrowedBooks: [Book]
     
-    init(ownerId: Int, name: String, borrowedBooks: [Book]) {
-        self.ownerId = ownerId
+    init(ownerId: Int = 1, name: String, borrowedBooks: [Book]) {
+        self.ownerId = ownerId + 1
         self.name = name
         self.borrowedBooks = borrowedBooks
     }
     
     func canBorrowBook (book: Book) {
-        borrowedBooks.append(book)
-        book.BorrowBook ()
+        if book.isBorrowed == false {
+            borrowedBooks.append(book)
+            book.BorrowBook ()
+        }
     }
     
     func returnBorrowedBook (book: Book) {
-        for (i,value) in borrowedBooks.enumerated() {
-            if value.bookID == book.bookID {
-                borrowedBooks.remove(at: i)
-                book.unBorrowBook()
+        if book.isBorrowed {
+            for (i,value) in borrowedBooks.enumerated() {
+                if value.bookID == book.bookID {
+                    borrowedBooks.remove(at: i)
+                    book.unBorrowBook()
+                }
             }
         }
     }
@@ -181,7 +185,7 @@ library.addOwner(owner: sisonaDarchia)
 library.addOwner(owner: vladimirPutin)
 
 library.borrowAvailableBook(inputId: 1, book: [theAlchemist])
-library.borrowAvailableBook(inputId: 1, book: [theHobbit])
+library.borrowAvailableBook(inputId: 2, book: [theHobbit])
 donaldTrump.returnBorrowedBook(book: theHobbit)
 
 
@@ -197,7 +201,7 @@ for book in availableBooksDetails {
     print(book)
 }
 
-var borrowedBookByID = library.borrowedBookByID(inputId: 1)
+var borrowedBookByID = library.borrowedBookByID(inputId: 12)
 var borrowedBookByIDDetails = availableBooks.map { "მითითებული წაღებული წიგნ(ებ)ია: \($0.title) ავტორია: \($0.author)" }
 for book in borrowedBookByIDDetails {
     print(book)

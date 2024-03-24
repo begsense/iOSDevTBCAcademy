@@ -51,12 +51,14 @@ class Owner {
     
     func canBorrowBook (book: Book) {
         borrowedBooks.append(book)
+        book.BorrowBook ()
     }
     
     func returnBorrowedBook (book: Book) {
         for (i,value) in borrowedBooks.enumerated() {
             if value.bookID == book.bookID {
                 borrowedBooks.remove(at: i)
+                book.unBorrowBook()
             }
         }
     }

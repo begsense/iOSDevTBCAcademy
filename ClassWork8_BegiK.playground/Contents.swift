@@ -6,13 +6,15 @@ import Foundation
 //Method რომელიც ნიშნავს წიგნს როგორც borrowed-ს.
 //Method რომელიც ნიშნავს წიგნს როგორც დაბრუნებულს.
 class Book {
+    static var lastAssignedID: Int = 0
     let bookID: Int
     var title: String
     var author: String
     var isBorrowed: Bool
     
-    init(bookID: Int = 1, title: String, author: String, isBorrowed: Bool) {
-        self.bookID = bookID+1
+    init(bookID: Int, title: String, author: String, isBorrowed: Bool) {
+        Book.lastAssignedID += 1
+        self.bookID = Book.lastAssignedID
         self.title = title
         self.author = author
         self.isBorrowed = isBorrowed
@@ -39,12 +41,14 @@ class Book {
 //Method რომელიც აძლევს უფლებას რომ აიღოს წიგნი ბიბლიოთეკიდან.
 //Method რომელიც აძლევს უფლებას რომ დააბრუნოს წაღებული წიგნი.
 class Owner {
+    static var lastAssignedID = 0
     let ownerId: Int
     var name: String
     var borrowedBooks: [Book]
     
-    init(ownerId: Int = 1, name: String, borrowedBooks: [Book]) {
-        self.ownerId = ownerId + 1
+    init(ownerId: Int, name: String, borrowedBooks: [Book]) {
+        Book.lastAssignedID += 1
+        self.ownerId = Book.lastAssignedID
         self.name = name
         self.borrowedBooks = borrowedBooks
     }
@@ -183,7 +187,6 @@ library.addBook(book: theHobbit)
 library.addOwner(owner: donaldTrump)
 library.addOwner(owner: sisonaDarchia)
 library.addOwner(owner: vladimirPutin)
-
 library.borrowAvailableBook(inputId: 1, book: [theAlchemist])
 library.borrowAvailableBook(inputId: 2, book: [theHobbit])
 donaldTrump.returnBorrowedBook(book: theHobbit)

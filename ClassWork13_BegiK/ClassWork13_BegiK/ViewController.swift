@@ -20,7 +20,6 @@ struct Coffe {
 class ViewController: UIViewController {
     var count = 1
     @IBOutlet weak var image: UIImageView!
-    @IBOutlet weak var heart: UIImageView!
     @IBOutlet weak var reviewsCount: UILabel!
     @IBOutlet weak var buy: UIButton!
     @IBOutlet weak var rating: UILabel!
@@ -35,9 +34,13 @@ class ViewController: UIViewController {
         littleSizeCoffe.layer.cornerRadius = 12
         middleSizeCoffe.layer.cornerRadius = 12
         bigSizeCoffe.layer.cornerRadius = 12
-        let tapped = UITapGestureRecognizer(target: self, action: #selector(heartAction))
-            heart.isUserInteractionEnabled = true
-            heart.addGestureRecognizer(tapped)
+        
+    }
+    
+    @IBAction func heartButton(_ sender: UIButton) {
+        sender.tintColor = UIColor.red
+        rating.text = "4.9"
+        reviewsCount.text = "(231)"
     }
     
     @IBAction func littleSize(_ sender: UIButton) {
@@ -57,13 +60,6 @@ class ViewController: UIViewController {
         price.text = "8.99ლ"
         middleSizeCoffe.backgroundColor = UIColor.white
         littleSizeCoffe.backgroundColor = UIColor.white
-    }
-    
-    @objc func heartAction() {
-        heart.tintColor = UIColor.red
-        rating.text = "4.9"
-        reviewsCount.text = "(231)"
-        count += 1
     }
     
 }

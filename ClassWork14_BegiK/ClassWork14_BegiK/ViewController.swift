@@ -368,6 +368,15 @@ class ViewController: UIViewController {
         signInForm.spacing = 18
         signInForm.addArrangedSubview(inputForm)
         signInForm.addArrangedSubview(button)
+        button.addTarget(self, action: #selector(buttonActions), for: .touchUpInside)
+    }
+    
+    @objc func buttonActions() {
+        if thirdFormField.accessibilityElementCount() < 6 || thirdFormField.accessibilityElementCount() > 15 {
+            thirdFormField.backgroundColor = .red
+        } else {
+            thirdFormField.backgroundColor = .none
+        }
     }
     
     func configureInputForm() {

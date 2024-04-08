@@ -8,7 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-    
+// MARK: - Properties
     let mainStackView: UIStackView = {
         let mainStackView = UIStackView()
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -81,7 +81,6 @@ class ViewController: UIViewController {
     let signInForm: UIStackView = {
         let signInForm = UIStackView()
         signInForm.translatesAutoresizingMaskIntoConstraints = false
-//        signInForm.heightAnchor.constraint(equalToConstant: 282).isActive = true
         return signInForm
     } ()
     
@@ -286,6 +285,7 @@ class ViewController: UIViewController {
         return facebookSubViewLabel
     } ()
 
+// MARK: - DidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -303,6 +303,7 @@ class ViewController: UIViewController {
         configureGoogleAndFacebook()
     }
     
+// MARK: - Methods
     func addMainStackView() {
         self.view.addSubview(mainStackView)
         mainStackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50).isActive = true
@@ -319,16 +320,12 @@ class ViewController: UIViewController {
         mainStackView.addArrangedSubview(topStackView)
         mainStackView.addArrangedSubview(middleStackView)
         mainStackView.addArrangedSubview(bottomStackView)
-//        bottomStackView.heightAnchor.constraint(equalToConstant: 528).isActive = true
-//        middleStackView.heightAnchor.constraint(equalToConstant: 28).isActive = true
-
     }
 
     func configureTopStackView() {
         topStackView.alignment = .center
         topStackView.distribution = .fill
         topStackView.addArrangedSubview(lockImage)
-//        topStackView.topAnchor.constraint(equalTo: mainStackView.topAnchor, constant: 0).isActive = true
         lockImage.translatesAutoresizingMaskIntoConstraints = false
         lockImage.contentMode = .scaleAspectFit
         lockImage.widthAnchor.constraint(equalToConstant: 90).isActive = true
@@ -357,7 +354,6 @@ class ViewController: UIViewController {
     func configureTabMenu() {
         tabMenu.axis = .vertical
         tabMenu.spacing = 16
-//        tabMenu.distribution = .fillProportionally
         tabMenu.addArrangedSubview(tabMenuLabel)
         tabMenu.addArrangedSubview(tabMenuView)
 
@@ -375,7 +371,7 @@ class ViewController: UIViewController {
         if thirdFormField.accessibilityElementCount() < 6 || thirdFormField.accessibilityElementCount() > 15 {
             thirdFormField.backgroundColor = .red
         } else {
-            thirdFormField.backgroundColor = .none
+            thirdFormField.backgroundColor = .white
         }
     }
     

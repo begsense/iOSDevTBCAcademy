@@ -15,10 +15,15 @@ class MainVC: UIViewController {
         return tableView
     }()
     
+    var sortedStudents = [(String, [StudentData])]()
+    var sectionTitles = [String]()
+    
+//MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         addTitle()
         addStudentsTableView()
+        sortAndGroupStudents()
     }
     
     func addTitle() {
@@ -37,19 +42,31 @@ class MainVC: UIViewController {
         studentsTableView.dataSource = self
         studentsTableView.delegate = self
     }
+    
+    func sortAndGroupStudents() {
+        let sortedStudentsDict = Dictionary(grouping: students) { String($0.fullName.prefix(1)).uppercased() }
+        sortedStudents = sortedStudentsDict.sorted { $0.key < $1.key }
+        for key in sortedStudentsDict.keys.sorted() {
+            sectionTitles.append(key)
+        }
+    }
 
 }
 
 //MARK: ExtensionOfTableView
 extension MainVC: UITableViewDataSource, UITableViewDelegate {
 
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sectionTitles.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        students.count
+        return sortedStudents[section].1.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "students", for: indexPath)
-        cell.textLabel?.text = students[indexPath.row].fullName
+        cell.textLabel?.text = sortedStudents[indexPath.section].1[indexPath.row].fullName
         let symbolImage = StudentTableViewCell()
         symbolImage.addSymbolImage()
         symbolImage.symbolImageView.image = UIImage(named: "symbolImage")
@@ -81,6 +98,13 @@ extension MainVC: UITableViewDataSource, UITableViewDelegate {
         return headerView
     }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sectionTitles[section]
+    }
+    
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        sectionTitles
+    }
     
 }
 

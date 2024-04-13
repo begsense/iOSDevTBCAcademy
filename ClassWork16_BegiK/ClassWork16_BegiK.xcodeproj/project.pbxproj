@@ -14,7 +14,6 @@
 		6F0468692BC98D5200823603 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 6F0468682BC98D5200823603 /* Base */; };
 		6F0468712BC98FC100823603 /* StudentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0468702BC98FC100823603 /* StudentData.swift */; };
 		6F0468732BC9ACDE00823603 /* StudentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0468722BC9ACDD00823603 /* StudentTableViewCell.swift */; };
-		6F0468752BC9BD7000823603 /* SortStudents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0468742BC9BD7000823603 /* SortStudents.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +26,6 @@
 		6F04686A2BC98D5200823603 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6F0468702BC98FC100823603 /* StudentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentData.swift; sourceTree = "<group>"; };
 		6F0468722BC9ACDD00823603 /* StudentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentTableViewCell.swift; sourceTree = "<group>"; };
-		6F0468742BC9BD7000823603 /* SortStudents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortStudents.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +66,6 @@
 				6F0468652BC98D5200823603 /* Assets.xcassets */,
 				6F0468672BC98D5200823603 /* LaunchScreen.storyboard */,
 				6F04686A2BC98D5200823603 /* Info.plist */,
-				6F0468742BC9BD7000823603 /* SortStudents.swift */,
 			);
 			path = ClassWork16_BegiK;
 			sourceTree = "<group>";
@@ -144,7 +141,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F0468612BC98D5100823603 /* MainVC.swift in Sources */,
-				6F0468752BC9BD7000823603 /* SortStudents.swift in Sources */,
 				6F0468732BC9ACDE00823603 /* StudentTableViewCell.swift in Sources */,
 				6F0468712BC98FC100823603 /* StudentData.swift in Sources */,
 				6F04685D2BC98D5100823603 /* AppDelegate.swift in Sources */,

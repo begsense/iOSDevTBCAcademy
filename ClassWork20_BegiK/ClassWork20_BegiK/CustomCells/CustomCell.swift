@@ -24,6 +24,7 @@ class CustomCell: UICollectionViewCell {
         flag.translatesAutoresizingMaskIntoConstraints = false
         flag.widthAnchor.constraint(equalToConstant: 30).isActive = true
         flag.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        flag.layer.cornerRadius = 15
         return flag
     }()
     
@@ -67,28 +68,15 @@ class CustomCell: UICollectionViewCell {
         mainView.addSubview(symbol)
         NSLayoutConstraint.activate([
             flag.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 24),
-            flag.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 15),
-            flag.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -15),
+            flag.centerYAnchor.constraint(equalTo: mainView.centerYAnchor),
             symbol.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -24),
-            symbol.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 20),
-            symbol.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -20),
+            symbol.centerYAnchor.constraint(equalTo: mainView.centerYAnchor),
             name.trailingAnchor.constraint(equalTo: symbol.leadingAnchor, constant: -5),
-            name.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 17),
-            name.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -16)
+            name.centerYAnchor.constraint(equalTo: mainView.centerYAnchor),
+            name.widthAnchor.constraint(lessThanOrEqualToConstant: 220)
         ])
     }
     
-//    func setFlagImage(from urlString: String) {
-//        guard let url = URL(string: urlString) else { return }
-//        DispatchQueue.global().async { [weak self] in
-//            if let data = try? Data(contentsOf: url),
-//               let image = UIImage(data: data) {
-//                DispatchQueue.main.async {
-//                    self?.flag.image = image
-//                }
-//            }
-//        }
-//    }
     func setFlagImage(from urlString: String) {
         guard let url = URL(string: urlString) else { return }
         

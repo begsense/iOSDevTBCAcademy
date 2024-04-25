@@ -16,11 +16,22 @@ class MainPageViewModel {
     private var itemModel: MainPageModel
     private var delegate: MainPageViewModelDelegate?
     var countriesData: [MainPageModel.country] = []
+    var filteredCountriesData: [MainPageModel.country] = []
     
     init(itemModel: MainPageModel, delegate: MainPageViewModelDelegate) {
         self.itemModel = itemModel
         self.delegate = delegate
     }
+        
+    func filterCountries(by searchText: String) {
+        if searchText.isEmpty {
+            filteredCountriesData = countriesData
+        } else {
+            filteredCountriesData = countriesData.filter { $0.name.common.lowercased().contains(searchText.lowercased()) }
+        }
+        delegate?.didUpdateCountries()
+    }
+    
 
     func getCountriesData() {
         let urlString = "https://restcountries.com/v3.1/all"
@@ -56,9 +67,11 @@ class MainPageViewModel {
                 let decoder = JSONDecoder()
                 let responseData = try decoder.decode([MainPageModel.country].self, from: data)
                 self.countriesData = responseData
+                self.filteredCountriesData = responseData
                 DispatchQueue.main.async {
                     self.delegate?.didUpdateCountries()
                 }
+                
             } catch {
                 print("Error decoding response data: \(error)")
             }

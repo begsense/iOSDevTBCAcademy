@@ -369,4 +369,6 @@ class MainPageModel {
     
     typealias countries = [country]
     
+    private var filteredCountriesData: [MainPageModel.country] = []
+    
 }

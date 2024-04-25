@@ -7,9 +7,10 @@
 
 import UIKit
 
-class MainPageView: UIViewController, MainPageViewModelDelegate {
+class MainPageView: UIViewController, MainPageViewModelDelegate, UISearchBarDelegate {
     
     var viewModel: MainPageViewModel!
+    let searchBar = UISearchBar()
     
     //MARK: Properties
     let collectionView: UICollectionView = {
@@ -27,6 +28,7 @@ class MainPageView: UIViewController, MainPageViewModelDelegate {
         super.viewDidLoad()
         addTitle()
         setupCollectionView()
+        setupSearchBar()
         viewModel = MainPageViewModel(itemModel: MainPageModel(), delegate: self)
         viewModel.getCountriesData()
     }
@@ -40,7 +42,7 @@ class MainPageView: UIViewController, MainPageViewModelDelegate {
     }
     
     func addTitle() {
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "backgroundColor")
         navigationController?.navigationBar.prefersLargeTitles = true
         title = "Countries"
         let backButton = UIBarButtonItem()
@@ -48,6 +50,15 @@ class MainPageView: UIViewController, MainPageViewModelDelegate {
         navigationItem.backBarButtonItem = backButton
     }
     
+    func setupSearchBar() {
+        searchBar.placeholder = "Search by country"
+        searchBar.delegate = self
+        navigationItem.titleView = searchBar
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.filterCountries(by: searchText)
+    }
     
     func setupCollectionView() {
         collectionView.dataSource = self
@@ -67,14 +78,15 @@ class MainPageView: UIViewController, MainPageViewModelDelegate {
 
 extension MainPageView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.countriesData.count
+        viewModel.filteredCountriesData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let currentCountry = viewModel.countriesData[indexPath.row]
+        let currentCountry = viewModel.filteredCountriesData[indexPath.row]
         let customCell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCell", for: indexPath) as! CustomCell
         customCell.setFlagImage(from: currentCountry.flags.png)
         customCell.name.text = currentCountry.name.common
+        customCell.backgroundColor = UIColor(named: "backgroundColor")
         return customCell
     }
     
@@ -115,7 +127,7 @@ class CustomCell: UICollectionViewCell {
         let name = UILabel()
         name.translatesAutoresizingMaskIntoConstraints = false
         name.text = "Georgia"
-        name.textColor = .black
+        name.textColor = UIColor(named: "labelForColor")
         name.font = UIFont(name: "SF Pro", size: 14)
         return name
     }()

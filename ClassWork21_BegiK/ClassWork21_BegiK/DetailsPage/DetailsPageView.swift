@@ -1,5 +1,5 @@
 //
-//  DetailsPageView.swift
+//  DetailsPageViewModel.swift
 //  ClassWork21_BegiK
 //
 //  Created by M1 on 25.04.2024.
@@ -34,7 +34,6 @@ extension UILabel {
 
 class DetailsPageView: UIViewController {
     var selectedDetails: MainPageModel.country?
-    var viewModelDetails = DetailsPageViewModel()
     
     let scrollView : UIScrollView = {
         let scrollView = UIScrollView()
@@ -201,8 +200,8 @@ class DetailsPageView: UIViewController {
     
     func setupUI() {
         setupTopView()
-        viewModelDetails.loadImageFromJSON()
-        viewModelDetails.updateDetailsFromAPI()
+        loadImageFromJSON()
+        updateDetailsFromAPI()
         setupMiddleView()
         setupBottomView()
         setupButtonActions()
@@ -245,25 +244,25 @@ class DetailsPageView: UIViewController {
         ])
     }
     
-//    func loadImageFromJSON() {
-//        guard let urlString = selectedDetails?.flags.png, let url = URL(string: urlString) else {
-//            print("Photo URL is nil")
-//            return
-//        }
-//        
-//        URLSession.shared.dataTask(with: url) { data, _, error in
-//            if let error = error {
-//                print("Error fetching image: \(error)")
-//                return
-//            }
-//            
-//            if let data = data, let image = UIImage(data: data) {
-//                DispatchQueue.main.async {
-//                    self.countryFlag.image = image
-//                }
-//            }
-//        }.resume()
-//    }
+    func loadImageFromJSON() {
+        guard let urlString = selectedDetails?.flags.png, let url = URL(string: urlString) else {
+            print("Photo URL is nil")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            if let error = error {
+                print("Error fetching image: \(error)")
+                return
+            }
+            
+            if let data = data, let image = UIImage(data: data) {
+                DispatchQueue.main.async {
+                    self.countryFlag.image = image
+                }
+            }
+        }.resume()
+    }
     
     func setupMiddleView() {
         scrollView.addSubview(middleView)
@@ -287,31 +286,31 @@ class DetailsPageView: UIViewController {
         setupInfoView()
     }
     
-//    func updateDetailsFromAPI() {
-//        if let nativeName = selectedDetails?.name.nativeName?["kat"]?.official {
-//            nativeNameResult.text = nativeName
-//        } else {
-//            nativeNameResult.text = "N/A"
-//        }
-//        
-//        if let altSpellings = selectedDetails!.altSpellings.first, altSpellings != selectedDetails!.name.official {
-//            spellingResult.text = altSpellings
-//        }
-//        
-//        capitalResult.text = selectedDetails?.capital?.first ?? ""
-//        
-//        if let currencies = selectedDetails?.currencies {
-//            let currencyCodes = [currencies.mdl?.name, currencies.usd?.name, currencies.eur?.name]
-//            let filteredCurrencyCodes = currencyCodes.compactMap { $0 }
-//            currencyResult.text = filteredCurrencyCodes.joined(separator: ", ")
-//        }
-//        
-//        regionResult.text = selectedDetails!.region.rawValue
-//        
-//        if let neighbors = selectedDetails?.borders {
-//            neighborsResult.text = neighbors.joined(separator: ", ")
-//        }
-//    }
+    func updateDetailsFromAPI() {
+        if let nativeName = selectedDetails?.name.nativeName?["kat"]?.official {
+            nativeNameResult.text = nativeName
+        } else {
+            nativeNameResult.text = "N/A"
+        }
+        
+        if let altSpellings = selectedDetails!.altSpellings.first, altSpellings != selectedDetails!.name.official {
+            spellingResult.text = altSpellings
+        }
+        
+        capitalResult.text = selectedDetails?.capital?.first ?? ""
+        
+        if let currencies = selectedDetails?.currencies {
+            let currencyCodes = [currencies.mdl?.name, currencies.usd?.name, currencies.eur?.name]
+            let filteredCurrencyCodes = currencyCodes.compactMap { $0 }
+            currencyResult.text = filteredCurrencyCodes.joined(separator: ", ")
+        }
+        
+        regionResult.text = selectedDetails!.region.rawValue
+        
+        if let neighbors = selectedDetails?.borders {
+            neighborsResult.text = neighbors.joined(separator: ", ")
+        }
+    }
     
     func setupInfoView() {
         infoView.addSubview(nativeName)

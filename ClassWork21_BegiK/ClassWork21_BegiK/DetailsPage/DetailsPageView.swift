@@ -67,14 +67,15 @@ class DetailsPageView: UIViewController {
         countryFlag.image = UIImage(named: "flag")
         countryFlag.translatesAutoresizingMaskIntoConstraints = false
         countryFlag.heightAnchor.constraint(equalToConstant: 228).isActive = true
+        countryFlag.layer.cornerRadius = 15
         countryFlag.layer.shadowColor = UIColor.black.cgColor
         countryFlag.layer.shadowOpacity = 0.5
         countryFlag.layer.shadowOffset = CGSize(width: 0, height: 2)
         countryFlag.layer.shadowRadius = 4
         countryFlag.clipsToBounds = false
         countryFlag.layer.masksToBounds = false
-        countryFlag.layer.cornerRadius = 15
         return countryFlag
+
     }()
     
     let topViewBottomLine: UIView = {
@@ -373,12 +374,12 @@ class DetailsPageView: UIViewController {
         link2.addSubview(link2Img)
         
         NSLayoutConstraint.activate([
-            bottomView.topAnchor.constraint(equalTo: middleView.bottomAnchor),
+            bottomView.topAnchor.constraint(equalTo: middleViewBottomLine.bottomAnchor, constant: 28),
             bottomView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 9),
             bottomView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -9),
             bottomView.heightAnchor.constraint(equalToConstant: 60),
             scrollView.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: 100),
-            usefulLinks.topAnchor.constraint(equalTo: bottomView.bottomAnchor),
+            usefulLinks.topAnchor.constraint(equalTo: bottomView.topAnchor),
             usefulLinks.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor),
             linksView.topAnchor.constraint(equalTo: usefulLinks.bottomAnchor, constant: 15),
             linksView.centerXAnchor.constraint(equalTo: middleView.centerXAnchor),

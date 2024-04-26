@@ -1,8 +1,8 @@
 //
-//  DetailsPageViewModel.swift
-//  ClassWork21_BegiK
+//  DetailsPageView.swift
+//  ClassWork22_BegiK
 //
-//  Created by M1 on 25.04.2024.
+//  Created by M1 on 26.04.2024.
 //
 
 import UIKit

@@ -8,7 +8,8 @@
 import UIKit
 
 protocol LoginPageViewModelDelegate: AnyObject {
-    func loginButtonTapped(with username: String, password: String)
+    func loginButtonTapped(username: String, password: String)
+    func saveCredentials(username: String, password: String)
     func didLogged()
 }
 
@@ -34,10 +35,12 @@ class LoginPageViewModel {
             print("Error saving credentials to Keychain")
             return
         }
+        
+        delegate?.saveCredentials(username: username, password: password)
     }
     
     func loginButtonTapped(with username: String, password: String) {
-        delegate?.loginButtonTapped(with: username, password: password)
+        delegate?.loginButtonTapped(username: username, password: password)
         
     }
     
@@ -46,4 +49,5 @@ class LoginPageViewModel {
             delegate?.didLogged()
         }
     }
+    
 }

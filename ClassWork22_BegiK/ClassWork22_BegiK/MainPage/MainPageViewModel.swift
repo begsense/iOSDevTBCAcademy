@@ -5,35 +5,41 @@
 //  Created by M1 on 26.04.2024.
 //
 
-import UIKit
+import Foundation
 
 protocol MainPageViewModelDelegate: AnyObject {
-    func didUpdateCountries()
+    func didUpdateCountries(filteredCountriesParr: [MainPageModel.country])
 }
 
 class MainPageViewModel {
 
-    private var itemModel: MainPageModel
-    private var delegate: MainPageViewModelDelegate?
+    //MARK: Properties:
+    weak var delegate: MainPageViewModelDelegate?
     var countriesData: [MainPageModel.country] = []
     var filteredCountriesData: [MainPageModel.country] = []
-    
-    init(itemModel: MainPageModel, delegate: MainPageViewModelDelegate) {
-        self.itemModel = itemModel
-        self.delegate = delegate
-    }
         
+    //MARK: Lifecycle
+    func didLoad() {
+        getCountries()
+    }
+    
+    //MARK: Child Functions
+    func getCountries() {
+        getCountriesData()
+    }
+    
     func filterCountries(by searchText: String) {
         if searchText.isEmpty {
             filteredCountriesData = countriesData
         } else {
             filteredCountriesData = countriesData.filter { $0.name.common.lowercased().contains(searchText.lowercased()) }
         }
-        delegate?.didUpdateCountries()
+        delegate?.didUpdateCountries(filteredCountriesParr: filteredCountriesData)
     }
     
+    //MARK: Private Functions
 
-    func getCountriesData() {
+    private func getCountriesData() {
         let urlString = "https://restcountries.com/v3.1/all"
         guard let url = URL(string: urlString) else {
             print("Invalid URL")
@@ -68,9 +74,7 @@ class MainPageViewModel {
                 let responseData = try decoder.decode([MainPageModel.country].self, from: data)
                 self.countriesData = responseData
                 self.filteredCountriesData = responseData
-                DispatchQueue.main.async {
-                    self.delegate?.didUpdateCountries()
-                }
+                    self.delegate?.didUpdateCountries(filteredCountriesParr: self.filteredCountriesData)
                 
             } catch {
                 print("Error decoding response data: \(error)")

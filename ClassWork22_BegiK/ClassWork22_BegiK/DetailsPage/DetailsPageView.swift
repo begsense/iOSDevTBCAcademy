@@ -35,7 +35,8 @@ extension UILabel {
 class DetailsPageView: UIViewController {
     var selectedDetails: MainPageModel.country?
     
-//    var viewModel = DetailsPageViewModel()
+    var viewModel = DetailsPageViewModel()
+    
     
     let scrollView : UIScrollView = {
         let scrollView = UIScrollView()
@@ -194,8 +195,9 @@ class DetailsPageView: UIViewController {
     //MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel = DetailsPageViewModel(selectedDetails: selectedDetails)
         view.backgroundColor = UIColor(named: "backgroundColor")
-        navigationItem.title = selectedDetails?.name.common
+        navigationItem.title = viewModel.commonCountryNameTitle
         setupUI()
     }
     
@@ -211,11 +213,9 @@ class DetailsPageView: UIViewController {
     }
     
     func setupTopView() {
-        if let selectedDetails = selectedDetails {
-            countryName.text = selectedDetails.name.common
-            countryFlag.image = UIImage(named: selectedDetails.flags.png)
-            descriptionCountry.text = selectedDetails.flags.alt
-        }
+        countryName.text = viewModel.commonCountryNameTitle
+        countryFlag.image = UIImage(named: viewModel.countryFlagName)
+        descriptionCountry.text = viewModel.descriptionText
         view.addSubview(scrollView)
         scrollView.addSubview(topView)
         topView.addSubview(countryFlag)
@@ -290,29 +290,17 @@ class DetailsPageView: UIViewController {
     }
     
     func updateDetailsFromAPI() {
-        if let nativeName = selectedDetails?.name.nativeName?["kat"]?.official {
-            nativeNameResult.text = nativeName
-        } else {
-            nativeNameResult.text = "N/A"
-        }
+        nativeNameResult.text = viewModel.nativeName
         
-        if let altSpellings = selectedDetails!.altSpellings.first, altSpellings != selectedDetails!.name.official {
-            spellingResult.text = altSpellings
-        }
+        spellingResult.text = viewModel.spellingText
         
-        capitalResult.text = selectedDetails?.capital?.first ?? ""
+        capitalResult.text = viewModel.capitalName
         
-        if let currencies = selectedDetails?.currencies {
-            let currencyCodes = [currencies.mdl?.name, currencies.usd?.name, currencies.eur?.name]
-            let filteredCurrencyCodes = currencyCodes.compactMap { $0 }
-            currencyResult.text = filteredCurrencyCodes.joined(separator: ", ")
-        }
+        currencyResult.text = viewModel.currencyCodes
         
-        regionResult.text = selectedDetails!.region.rawValue
+        regionResult.text = viewModel.regionResult
         
-        if let neighbors = selectedDetails?.borders {
-            neighborsResult.text = neighbors.joined(separator: ", ")
-        }
+        neighborsResult.text = viewModel.neighborCountries
     }
     
     func setupInfoView() {

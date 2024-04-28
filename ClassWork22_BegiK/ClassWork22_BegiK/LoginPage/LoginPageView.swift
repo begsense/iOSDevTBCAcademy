@@ -41,11 +41,11 @@ extension UITextField {
 }
 
 class LoginPageView: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, LoginPageViewModelDelegate {
- 
-    
-    
+
     //MARK: Properties:
     let viewModel = LoginPageViewModel()
+    
+    weak var delegate: LoginPageViewModelDelegate?
     
     let loginImage: UIButton = {
         let button = UIButton()
@@ -126,15 +126,19 @@ class LoginPageView: UIViewController, UIImagePickerControllerDelegate, UINaviga
         }), for: .touchUpInside)
     }
     
-    func loginButtonTapped(with username: String, password: String) {
-            viewModel.saveCredentials(username: username, password: password)
+    func loginButtonTapped(username: String, password: String) {
+            delegate?.saveCredentials(username: username, password: password)
         }
+    
+    func saveCredentials(username: String, password: String) {
+        delegate?.saveCredentials(username: username, password: password)
+    }
         
     func loginButtonTappedAction() {
         guard let username = userNameField.text, let password = userPasswordField.text else {
             return
         }
-        viewModel.loginButtonTapped(with: username, password: password)
+        delegate?.loginButtonTapped(username: username, password: password)
         UserDefaults.standard.set(true, forKey: "hasLoggedIn")
         if !UserDefaults.standard.bool(forKey: "firstTimeLogin") {
             UserDefaults.standard.set(true, forKey: "firstTimeLogin")

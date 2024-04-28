@@ -6,11 +6,12 @@
 //
 
 import UIKit
-
-class MainPageView: UIViewController, MainPageViewModelDelegate, UISearchBarDelegate {
+ 
+class MainPageView: UIViewController, UISearchBarDelegate {
     
-    var viewModel: MainPageViewModel!
+    var viewModel = MainPageViewModel()
     let searchBar = UISearchBar()
+    var countries = [MainPageModel.country]()
     
     //MARK: Properties
     let collectionView: UICollectionView = {
@@ -29,18 +30,12 @@ class MainPageView: UIViewController, MainPageViewModelDelegate, UISearchBarDele
         addTitle()
         setupCollectionView()
         setupSearchBar()
-        viewModel = MainPageViewModel(itemModel: MainPageModel(), delegate: self)
-        viewModel.getCountriesData()
+        viewModel.delegate = self
+        viewModel.didLoad()
         checkLoginStatus()
     }
     
     //MARK: Functions
-    
-    func didUpdateCountries() {
-        DispatchQueue.main.async {
-            self.collectionView.reloadData()
-        }
-    }
     
     func addTitle() {
         view.backgroundColor = UIColor(named: "backgroundColor")
@@ -84,13 +79,24 @@ class MainPageView: UIViewController, MainPageViewModelDelegate, UISearchBarDele
     }
 }
 
+extension MainPageView: MainPageViewModelDelegate {
+    func didUpdateCountries(filteredCountriesParr: [MainPageModel.country]) {
+        countries = filteredCountriesParr
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+}
+
+
+
 extension MainPageView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.filteredCountriesData.count
+        countries.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let currentCountry = viewModel.filteredCountriesData[indexPath.row]
+        let currentCountry = countries[indexPath.row]
         let customCell = collectionView.dequeueReusableCell(withReuseIdentifier: "CustomCell", for: indexPath) as! CustomCell
         customCell.setFlagImage(from: currentCountry.flags.png)
         customCell.name.text = currentCountry.name.common
@@ -103,7 +109,7 @@ extension MainPageView: UICollectionViewDataSource {
 extension MainPageView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: false)
-        let selectedDetails = viewModel.countriesData[indexPath.row]
+        let selectedDetails = countries[indexPath.row]
         let detailsVC = DetailsPageView()
         detailsVC.selectedDetails = selectedDetails
         navigationController?.pushViewController(detailsVC, animated: false)

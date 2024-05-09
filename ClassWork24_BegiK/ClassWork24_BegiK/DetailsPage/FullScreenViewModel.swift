@@ -17,8 +17,8 @@ class FullScreenViewModel {
     }
     
     //MARK: Functions
-    func loadImage(completion: @escaping (Data?) -> Void) {
-        guard let imageUrl = URL(string: selectedPhoto.urls.regular) else {
+    func loadImage(photo: Photos, completion: @escaping (Data?) -> Void) {
+        guard let imageUrl = URL(string: photo.urls.regular) else {
             completion(nil)
             return
         }

@@ -11,6 +11,8 @@ class FullScreenView: UIViewController {
     //MARK: Properties
     var viewModel: FullScreenViewModel
     
+    var selectedPhoto: Photos?
+    
     var selectedIndex: Int = 0
     
     var selectedData: [Photos] = []
@@ -25,8 +27,9 @@ class FullScreenView: UIViewController {
     }()
     
     //MARK: Lifecycle
-    init(viewModel: FullScreenViewModel) {
+    init(viewModel: FullScreenViewModel, selectedPhoto: Photos) {
         self.viewModel = viewModel
+        self.selectedPhoto = selectedPhoto
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -52,6 +55,7 @@ class FullScreenView: UIViewController {
         collectionView.isPagingEnabled = true
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.scrollToItem(at: IndexPath(item: selectedIndex, section: 0), at: .left, animated: false)
     }
     
 }
@@ -67,25 +71,21 @@ extension FullScreenView: UICollectionViewDataSource {
             fatalError("Failed to dequeue MainPageViewCustomCell")
         }
         let selectedPhoto = selectedData[indexPath.item]
-            
-            // Load the image for the selected photo
-            viewModel.loadImage { imageData in
-                DispatchQueue.main.async {
-                    if let imageData = imageData {
+        viewModel.loadImage(photo: selectedPhoto) { imageData in
+            DispatchQueue.main.async {
+                if let imageData = imageData {
+                    if let currentIndexPath = collectionView.indexPath(for: customCell), currentIndexPath == indexPath {
                         customCell.photoImageView.image = UIImage(data: imageData)
-                    } else {
-                        print("Failed to load image data.")
                     }
+                } else {
+                    print("Failed to load image data.")
                 }
             }
+        }
         
         return customCell
     }
-
-
 }
-
-
 
 extension FullScreenView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
@@ -98,5 +98,4 @@ extension FullScreenView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return collectionView.bounds.size
     }
-    
 }

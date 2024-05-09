@@ -91,13 +91,21 @@ extension MainPageView: UICollectionViewDataSource {
     
 }
 
+
+
 extension MainPageView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedPhoto = viewModel.photosArray[indexPath.item]
         let fullScreenViewModel = FullScreenViewModel(selectedPhoto: selectedPhoto)
-        let fullScreenView = FullScreenView(viewModel: fullScreenViewModel)
+        
+        var selectedData: [Photos] = [selectedPhoto]
+        
+        let remainingPhotos = viewModel.photosArray.filter { $0.id != selectedPhoto.id }
+        selectedData.append(contentsOf: remainingPhotos)
+        
+        let fullScreenView = FullScreenView(viewModel: fullScreenViewModel, selectedPhoto: selectedPhoto)
         fullScreenView.selectedIndex = indexPath.row
-        fullScreenView.selectedData = viewModel.photosArray
+        fullScreenView.selectedData = selectedData
         navigationController?.pushViewController(fullScreenView, animated: false)
     }
 }

@@ -44,6 +44,4 @@ class MainPageViewCustomCell: UICollectionViewCell {
             photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
-    
-    
 }

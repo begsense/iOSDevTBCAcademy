@@ -360,7 +360,7 @@ class MainPageView: UIViewController {
         displayLink = CADisplayLink(target: self, selector: #selector(updateProgressLine))
         displayLink?.add(to: .current, forMode: .default)
         UIView.animate(withDuration: 0.3) {
-            self.coverPhoto.transform = CGAffineTransform(scaleX: 0.5, y: 0.6)
+            self.coverPhoto.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
         }
     }
 
